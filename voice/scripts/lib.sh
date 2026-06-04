@@ -8,7 +8,7 @@ CFG="${XDG_CONFIG_HOME:-$HOME/.config}/claude-voice/config"
 [ -f "$CFG" ] && . "$CFG"
 
 : "${VOICE_ENABLED:=1}"            # 1 = speak, 0 = silent (toggle without uninstalling)
-: "${VOICE_MODE:=summarize}"       # summarize | marker
+: "${VOICE_MODE:=marker}"          # marker (default) | summarize | rolling — selects a strategy leaf in scripts/strategies/
 : "${VOICE_NAME:=}"                # macOS `say -v` voice; empty = system default
 : "${VOICE_SUMMARIZER:=claude -p}" # command used in summarize mode
 : "${VOICE_MAX_CHARS:=4000}"       # cap on text sent to the summarizer

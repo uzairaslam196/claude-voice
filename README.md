@@ -19,8 +19,10 @@ Two halves:
 | **Trigger** | "the agent just finished — here's its response" | Tool-specific |
 | **Speaker** | summarize that text → speak it | Same everywhere |
 
-The speaker (`summarize-say.sh` + `lib.sh`) is shared. Each tool only needs its own
-trigger to feed it the response text.
+The speaker (`speak-response.sh` + `lib.sh`) is shared. Each tool only needs its own
+trigger to feed it the response text. How the spoken line is produced is a swappable
+strategy: `speak-response.sh` picks a leaf in `voice/scripts/strategies/` by `VOICE_MODE`,
+so adding a mode is just one new file.
 
 The default summarizer is `claude -p` — a one-shot, non-interactive call that **reuses
 your existing Claude Code login** (no separate API key).
@@ -83,18 +85,24 @@ Every value is optional; environment variables override the file.
 | Variable | Default | Meaning |
 |----------|---------|---------|
 | `VOICE_ENABLED` | `1` | `0` silences voice without uninstalling |
-| `VOICE_MODE` | `summarize` | `summarize` (one-shot call) or `marker` (read `<speak>…</speak>` only) |
+| `VOICE_MODE` | `marker` | strategy leaf in `voice/scripts/strategies/`: `marker` (default — read `<speak>…</speak>` only), `summarize` (one-shot call), or `rolling` (stub) |
 | `VOICE_NAME` | _(system)_ | macOS voice, e.g. `Samantha`. List with `say -v '?'` |
 | `VOICE_SUMMARIZER` | `claude -p` | command used in summarize mode |
 | `VOICE_MAX_CHARS` | `4000` | cap on text sent to the summarizer |
 
 ### Modes
 
-- **`summarize`** (default) — feeds each response to `claude -p`, which returns one spoken
-  sentence. Always works, costs a tiny call per turn (your Claude Code plan).
-- **`marker`** — speaks only what the agent wraps in `<speak>…</speak>`. Zero extra calls.
-  The Claude Code plugin injects an instruction asking for the tag; if it's ever missing,
-  it falls back to "Done. Check the screen." (Claude Code only — Codex won't inject.)
+Each mode is a strategy leaf in `voice/scripts/strategies/`. Adding one = one new file.
+
+- **`marker`** (default) — speaks only what the agent wraps in `<speak>…</speak>`. Zero extra
+  calls, full context for free. The Claude Code plugin injects an instruction asking for the
+  tag; if it's ever missing, it falls back to "Done. Check the screen." (Claude Code only —
+  Codex won't inject.)
+- **`summarize`** — feeds each response to `claude -p`, which returns one spoken sentence.
+  Always works (incl. Codex), costs a tiny call per turn (your Claude Code plan). Tune cost
+  with `VOICE_SUMMARIZER` (e.g. `claude -p --model haiku`).
+- **`rolling`** — (stub) history-aware running-summary narration; currently falls back to
+  `summarize`.
 
 ---
 

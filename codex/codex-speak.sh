@@ -28,5 +28,5 @@ text=$(printf '%s' "$payload" | jq -r \
   '."last-assistant-message" // .last_assistant_message // .message // empty')
 [ -z "$text" ] && exit 0
 
-printf '%s' "$text" | "$LIB/summarize-say.sh"
+printf '%s' "$text" | bash "$LIB/speak-response.sh"
 exit 0

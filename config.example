@@ -4,12 +4,15 @@
 # 1 = speak, 0 = silent. Toggle voice mode off without uninstalling.
 VOICE_ENABLED=1
 
-# How the spoken line is produced:
-#   summarize = run a one-shot summarizer over each response (default, reliable)
-#   marker    = speak only text the agent wraps in <speak>...</speak>
-#               (no extra call; depends on the agent following the injected
-#                instruction — only the Claude Code plugin injects it)
-VOICE_MODE=summarize
+# How the spoken line is produced — selects a strategy leaf in scripts/strategies/:
+#   marker    = (default) speak only the agent's <speak>...</speak> line; zero extra
+#               LLM calls; full context for free. Claude Code only (relies on the
+#               injected instruction — only the Claude Code plugin injects it).
+#   summarize = one `claude -p` summary per response; works everywhere (incl. Codex);
+#               no history. Tune cost with VOICE_SUMMARIZER (e.g. claude -p --model haiku).
+#   rolling   = (stub) history-aware running-summary narration; currently falls back
+#               to summarize.
+VOICE_MODE=marker
 
 # macOS TTS voice (`say -v`). Run `say -v '?'` to list. Empty = system default.
 # Ignored on Linux (spd-say / espeak use the system default voice).
