@@ -1,0 +1,14 @@
+{
+  "name": "claude-voice",
+  "owner": {
+    "name": "uzair",
+    "url": "https://github.com/uzairaslam196"
+  },
+  "plugins": [
+    {
+      "name": "voice",
+      "source": "./voice",
+      "description": "Voice mode for Claude Code — hear a spoken summary of each response."
+    }
+  ]
+}

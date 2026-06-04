@@ -1,0 +1,24 @@
+# claude-voice configuration
+# Copy to ~/.config/claude-voice/config and edit. Every value is optional.
+
+# 1 = speak, 0 = silent. Toggle voice mode off without uninstalling.
+VOICE_ENABLED=1
+
+# How the spoken line is produced:
+#   summarize = run a one-shot summarizer over each response (default, reliable)
+#   marker    = speak only text the agent wraps in <speak>...</speak>
+#               (no extra call; depends on the agent following the injected
+#                instruction — only the Claude Code plugin injects it)
+VOICE_MODE=summarize
+
+# macOS TTS voice (`say -v`). Run `say -v '?'` to list. Empty = system default.
+# Ignored on Linux (spd-say / espeak use the system default voice).
+VOICE_NAME=Samantha
+
+# Summarizer command for VOICE_MODE=summarize.
+# Default reuses your Claude Code login — no separate API key.
+#   VOICE_SUMMARIZER="claude -p"
+VOICE_SUMMARIZER="claude -p"
+
+# Max characters of the response fed to the summarizer (keeps it fast/cheap).
+VOICE_MAX_CHARS=4000
