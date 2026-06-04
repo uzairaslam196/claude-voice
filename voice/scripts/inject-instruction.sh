@@ -12,6 +12,7 @@ HERE="$(cd "$(dirname "$0")" && pwd)"
 . "$HERE/lib.sh"
 
 [ "$VOICE_ENABLED" = "1" ] || exit 0
+[ -n "${CLAUDE_VOICE_CHILD:-}" ] && exit 0
 [ "$VOICE_MODE" = "marker" ] || exit 0
 
 cat <<'EOF'

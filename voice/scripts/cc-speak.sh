@@ -6,6 +6,9 @@ HERE="$(cd "$(dirname "$0")" && pwd)"
 . "$HERE/lib.sh"
 
 [ "$VOICE_ENABLED" = "1" ] || exit 0
+# Don't recurse: the summarizer's own `claude -p` process inherits this var,
+# so its Stop hook must bail instead of spawning yet another summarizer.
+[ -n "${CLAUDE_VOICE_CHILD:-}" ] && exit 0
 command -v jq >/dev/null 2>&1 || exit 0
 
 input=$(cat)
