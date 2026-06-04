@@ -5,7 +5,7 @@
 VOICE_ENABLED=1
 
 # How the spoken line is produced — selects a strategy leaf in scripts/strategies/:
-#   marker    = (default) speak only the agent's <speak>...</speak> line; zero extra
+#   marker    = (default) speak only the agent's 🔊-prefixed final summary line; zero extra
 #               LLM calls; full context for free. Claude Code only (relies on the
 #               injected instruction — only the Claude Code plugin injects it).
 #   summarize = one `claude -p` summary per response; works everywhere (incl. Codex);

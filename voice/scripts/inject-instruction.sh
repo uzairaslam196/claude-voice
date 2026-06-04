@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Claude Code `UserPromptSubmit` hook.
 #
-# In MARKER mode, ask the agent to wrap a short spoken summary in <speak>...</speak>
+# In MARKER mode, ask the agent to append a short 🔊-prefixed final summary line
 # so cc-speak.sh can read just that aloud (zero extra summarizer calls).
 #
 # A UserPromptSubmit hook's stdout is appended to the model's context, so we emit
@@ -16,9 +16,12 @@ HERE="$(cd "$(dirname "$0")" && pwd)"
 [ "$VOICE_MODE" = "marker" ] || exit 0
 
 cat <<'EOF'
-[voice mode] At the very end of your response, append a line wrapped in tags:
-<speak> one or two plain spoken sentences: what you did or found, and any
-decision I must make. If you are asking me something, that question goes here.
-No code, no file paths, no markdown. Always include it, even for short replies. </speak>
+[voice mode] At the VERY END of your response, on its own line, append a spoken
+summary prefixed with the speaker emoji 🔊 — one or two plain spoken sentences:
+what you did or found, and any decision I must make (if you're asking me something,
+put that question here). No code, no file paths, no markdown, no asterisks or
+backticks. Always include this line, even for short replies. Example:
+
+🔊 I fixed the calendar token bug and opened a pull request — want me to deploy it?
 EOF
 exit 0

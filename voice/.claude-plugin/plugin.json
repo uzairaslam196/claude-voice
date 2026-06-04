@@ -1,6 +1,6 @@
 {
   "name": "voice",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Speaks a one-sentence summary of each Claude Code response aloud (local TTS, no API keys).",
   "author": { "name": "uzair" },
   "homepage": "https://github.com/uzairaslam196/claude-voice",

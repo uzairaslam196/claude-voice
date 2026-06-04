@@ -85,7 +85,7 @@ Every value is optional; environment variables override the file.
 | Variable | Default | Meaning |
 |----------|---------|---------|
 | `VOICE_ENABLED` | `1` | `0` silences voice without uninstalling |
-| `VOICE_MODE` | `marker` | strategy leaf in `voice/scripts/strategies/`: `marker` (default — read `<speak>…</speak>` only), `summarize` (one-shot call), or `rolling` (stub) |
+| `VOICE_MODE` | `marker` | strategy leaf in `voice/scripts/strategies/`: `marker` (default — read the agent's 🔊-prefixed final summary line), `summarize` (one-shot call), or `rolling` (stub) |
 | `VOICE_NAME` | _(system)_ | macOS voice, e.g. `Samantha`. List with `say -v '?'` |
 | `VOICE_SUMMARIZER` | `claude -p` | command used in summarize mode |
 | `VOICE_MAX_CHARS` | `4000` | cap on text sent to the summarizer |
@@ -94,9 +94,9 @@ Every value is optional; environment variables override the file.
 
 Each mode is a strategy leaf in `voice/scripts/strategies/`. Adding one = one new file.
 
-- **`marker`** (default) — speaks only what the agent wraps in `<speak>…</speak>`. Zero extra
+- **`marker`** (default) — speaks only the agent's 🔊-prefixed final summary line. Zero extra
   calls, full context for free. The Claude Code plugin injects an instruction asking for the
-  tag; if it's ever missing, it falls back to "Done. Check the screen." (Claude Code only —
+  line; if it's ever missing, it falls back to "Done. Check the screen." (Claude Code only —
   Codex won't inject.)
 - **`summarize`** — feeds each response to `claude -p`, which returns one spoken sentence.
   Always works (incl. Codex), costs a tiny call per turn (your Claude Code plan). Tune cost
